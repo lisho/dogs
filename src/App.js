@@ -1,23 +1,54 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Card from './components/Card';
+import Selector from './components/Selector';
+import getPerro from './helpers/getPerro';
+
+const perroInicial = {
+  
+  image: "",
+  breed: {
+    id: "",
+    name: "",
+    descripcion: "",
+  }
+  
+}
 
 function App() {
+
+  const [perro, setPerro] = useState(perroInicial);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    actualizaPerro(0);
+  }, [])
+
+  const actualizaPerro = (razaId) => {
+    setLoading(true)
+    getPerro(razaId)
+      .then(
+        (nuevoPerro) => { setPerro(nuevoPerro); 
+                          setLoading(false)}
+        
+      );
+   
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="cardContainer">
+        <h1 className="titulo">Buscador de perros</h1>
+        <Selector 
+          actualizaPerro = {actualizaPerro}
+        />
+
+       <Card 
+              perro={perro}
+              actualizaPerro={actualizaPerro}
+              loading={loading}
+            />
+        
+      </div>
     </div>
   );
 }
