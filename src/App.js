@@ -29,8 +29,7 @@ function App() {
     getPerro(razaId)
       .then(
         (nuevoPerro) => { setPerro(nuevoPerro); 
-                          setLoading(false)}
-        
+                          setLoading(false)}      
       );
    
   }
